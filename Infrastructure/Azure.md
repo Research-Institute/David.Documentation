@@ -27,7 +27,7 @@ docker-machine ssh staging-manager
  - Run the following command with the private IP and copy the results.
 
 ```
-docker swarm init --advertise-addr <MANAGER-IP>:2376
+docker swarm init --advertise-addr ${MANAGER_PRIVATE_IP}:2376
 ```
 
 
