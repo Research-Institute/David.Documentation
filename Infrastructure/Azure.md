@@ -22,7 +22,7 @@ docker-machine ssh staging-manager
 
 - Initialize the Swarm. You need to use the private IP address (note this is NOT the IP shown in docker-machine ls). 
  - Get the private IP of the manager through the Azure management portal: 
-   - (Resource Groups -> (group you created) -> docker-machine-vnet
+   - (Resource Groups) -> (group you created) -> (docker-machine-vnet)
    - Look for the network interface (manger-nic) and grab the IP Address off that interface.
  - Run the following command with the private IP and copy the results.
 
