@@ -1,0 +1,10 @@
+stages:
+ - build
+
+before_script:
+ - PATH=$PATH:/home/gitlab-runner
+ 
+build:
+ stage: build
+ script:
+  - expose-docs
