@@ -40,12 +40,49 @@ docker-machine create --driver azure --azure-subscription-id ${SUBSCRIPTION_ID} 
 - Join the swarm
   - SSH into the worker(s)
   - Join the swarm by pasting the command from the swarm initialization step
-  
+
 ## Allocating Existing Machines 
 
 TODO
 
-## Configuring Storage Accounts [Not Yet Recommended]
+## Persistent Storage
+
+There are a few options for persisting storage:
+
+- Remotely hosted databases (we support SQL Server and PostgreSQL)
+- PostgreSQL on Azure Disks
+- Storage Accounts using the Azure File Docker Volume Driver (not yet recommended)
+
+**Remotely Hosted Databases**
+
+Configure these using the connection string environment variables
+
+**Azure VHD Disks**
+
+[Reference](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-linux-classic-attach-disk)
+
+- Create a disk using the Azure Management Portal or by using the Azure CLI
+- Initialize the disk
+  - SSH into the VM
+  - Get the VHD identifier `sudo grep SCSI /var/log/syslog`
+  - Create the device `sudo fdisk /dev/sdc`
+  - Create partition: `n`
+  - Make partition primary: `p`
+  - Make it the first partition: `1`
+  - See details: `p`
+  - Write the settings: `w`
+  - Create the file system: ` sudo mkfs -t ext4 /dev/sdc1`
+  - Make directory to mount the system: `mkdir /david`
+  - Mount the drive: `sudo mount /dev/sdc1 /david`
+  - Add the new drive to /etc/fstab so that it survives restarts
+    - Get the UUID `sudo -i blkid`
+    - Open the fstab file: `sudo nano /etc/fstab`
+    - Append to end of file: `UUID=33333333-3b3b-3c3c-3d3d-3e3e3e3e3e3e   /datadrive   ext4   defaults,nofail   1   2`
+    - Test the mounting: `sudo umount /david` `sudo mount /david`
+    - Make drive writeable: `sudo chmod go+w /david`
+- Install [Docker local-persist volume plugin](https://github.com/CWSpear/local-persist)
+
+**Configuring Storage Accounts [Not Yet Recommended]**
 
 - Create an Azure Storage Account
 - SSH into each machine in the Swarm
@@ -70,7 +107,7 @@ systemctl status azurefile-dockervolumedriver
 docker volume create -d azurefile -o share=doctordb
 ```
 
-**Issues**
+_Issues_
 
 - Storage accounts must be in the same region as the VM
 - Verify deployment specifies the `azurefile` driver for the volumes
