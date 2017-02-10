@@ -53,11 +53,11 @@ There are a few options for persisting storage:
 - PostgreSQL on Azure Disks
 - Storage Accounts using the Azure File Docker Volume Driver (not yet recommended)
 
-**Remotely Hosted Databases**
+### Remotely Hosted Databases
 
 Configure these using the connection string environment variables
 
-**Azure VHD Disks**
+### Azure VHD Disks
 
 [Reference](https://docs.microsoft.com/en-us/azure/virtual-machines/virtual-machines-linux-classic-attach-disk)
 
@@ -82,7 +82,7 @@ Configure these using the connection string environment variables
     - Make drive writeable: `sudo chmod go+w /david`
 - Install [Docker local-persist volume plugin](https://github.com/CWSpear/local-persist)
 
-**Configuring Storage Accounts [Not Yet Recommended]**
+### Configuring Storage Accounts [Not Yet Recommended]
 
 - Create an Azure Storage Account
 - SSH into each machine in the Swarm
@@ -107,7 +107,7 @@ systemctl status azurefile-dockervolumedriver
 docker volume create -d azurefile -o share=doctordb
 ```
 
-_Issues_
+**Issues**
 
 - Storage accounts must be in the same region as the VM
 - Verify deployment specifies the `azurefile` driver for the volumes
