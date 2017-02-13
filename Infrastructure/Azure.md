@@ -11,13 +11,18 @@
 - Provision the Docker Swarm Manager using the [Azure driver](https://docs.docker.com/machine/drivers/azure/)
 
 ```
-docker-machine create --driver azure --azure-subscription-id ${SUBSCRIPTION_ID} --azure-resource-group ${RESOURCE_GROUP} ${MANAGER_NAME}
+docker-machine create \
+--driver azure \
+--azure-location centralus \
+--azure-subscription-id ${SUBSCRIPTION_ID} \
+--azure-resource-group ${RESOURCE_GROUP} \
+${MANAGER_NAME}
 ```
 
 - SSH into the Swarm Manager
 
 ```
-docker-machine ssh staging-manager
+docker-machine ssh ${MANAGER_NAME}
 ```
 
 - Initialize the Swarm. You need to use the private IP address (note this is NOT the IP shown in docker-machine ls). 
@@ -27,23 +32,16 @@ docker-machine ssh staging-manager
  - Run the following command with the private IP and copy the results.
 
 ```
-docker swarm init --advertise-addr ${MANAGER_PRIVATE_IP}:2376
+docker swarm init
 ```
-
 
 - Provision the worker node(s)
 
-```
-docker-machine create --driver azure --azure-subscription-id ${SUBSCRIPTION_ID} --azure-resource-group ${RESOURCE_GROUP} ${WORKER_NAME}
-```
+Run the same command used to create the manager, but change the machine name
 
 - Join the swarm
   - SSH into the worker(s)
   - Join the swarm by pasting the command from the swarm initialization step
-
-## Allocating Existing Machines 
-
-TODO
 
 ## Persistent Storage
 
