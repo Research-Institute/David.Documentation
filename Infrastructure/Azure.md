@@ -115,6 +115,15 @@ Also, from [azurefile-dockervolumedriver#32](https://github.com/Azure/azurefile-
 
 > We currently have no volume drivers on Azure that would let you smoothly and safely run a database unfortunately. I have provided a bit of detail in my comments above. Essentially, creating a durable and robust container persistence solution would require block devices support and the current offerings are not meeting the demands. However there is work going on to fix this gap.
  
+ ## Create the Overlay Network
+ 
+ ```
+ docker network create \
+  --driver overlay \
+  --opt encrypted \
+  common
+ ```
+ 
  ## Adding a machine to CI
  
 - (gitlab) Setup shell runner with Docker capabilities (https://docs.gitlab.com/ce/ci/docker/using_docker_build.html)
