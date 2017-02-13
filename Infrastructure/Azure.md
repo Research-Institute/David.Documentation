@@ -115,3 +115,45 @@ Also, from [azurefile-dockervolumedriver#32](https://github.com/Azure/azurefile-
 
 > We currently have no volume drivers on Azure that would let you smoothly and safely run a database unfortunately. I have provided a bit of detail in my comments above. Essentially, creating a durable and robust container persistence solution would require block devices support and the current offerings are not meeting the demands. However there is work going on to fix this gap.
  
+ ## Adding a machine to CI
+ 
+- (gitlab) Setup shell runner with Docker capabilities (https://docs.gitlab.com/ce/ci/docker/using_docker_build.html)
+- (gitlab) sudo -u gitlab-runner bash
+- Create a new key on your build machine
+
+```
+ssh-keygen -t rsa
+```
+
+- Add the key to the authorized hosts file on manager
+
+- Verify you can SSH into the manager from the new machine
+
+
+- Install docker-machine on the build machine without sudo:
+
+```
+curl -L https://github.com/docker/machine/releases/download/v0.9.0/docker-machine-`uname -s`-`uname -m` > ~/docker-machine && chmod +x docker-machine
+```
+
+- (gitlab)add to PATH 
+```
+PATH=$PATH:/home/gitlab-runner
+```
+
+
+- (gitlab)explicitly set the storage PATH
+```
+export MACHINE_STORAGE_PATH=/home/gitlab-runner/.docker
+```
+
+- create the machine
+
+```
+docker-machine create \
+--driver generic  \
+--generic-ip-address 13.88.25.6  \
+--generic-ssh-key ~/.ssh/id_rsa \
+--generic-ssh-user docker-user  \
+manager
+```
