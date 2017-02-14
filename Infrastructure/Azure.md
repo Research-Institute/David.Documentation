@@ -166,3 +166,7 @@ docker-machine create \
 --generic-ssh-user docker-user  \
 manager
 ```
+
+## Expose Ports
+
+Please see the Infrastructure/Port-Assignments file to see which ports may be exposed.
