@@ -18,7 +18,7 @@ See the [json:api](http://jsonapi.org/format/#fetching-relationships) spec for d
 Since we use [JSONAPI .Net Core](https://github.com/Research-Institute/json-api-dotnet-core) you can 
 use any of the supported filters to query the data. Some examples include:
 
-```http
+```
 /api/v1/measurements?filter[patient-id]=1&filter[data-type-id]=1
 /api/v1/measurements?filter[device-time]=gt:2016-1-1&filter[device-time]=lt:2017-1-1
 ```
